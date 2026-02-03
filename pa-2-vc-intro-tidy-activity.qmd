@@ -219,9 +219,12 @@ code_vector |>
 18. Replace all instances of the number 39 with 20. *Hint:* Step 18 requires another relational comparison, but this time it is equality. Equality in R is checked with a double equal sign rather than a single equal sign
 
 ```{r}
-#| label: add-label-8
-#add comment here
+#| label: sqrt-matrix
 
+code_vector_update <- code_vector |> 
+  mutate(code = if_else(id %in% 38:465, sqrt(code), code)) |> 
+  mutate(code = round(code, digits = 0)) |> 
+  mutate(code = if_else(code == 39, 20, code))
 ```
 
 
@@ -231,10 +234,11 @@ code_vector |>
 *Hint:* Checking for divisibility is an interesting operation that isn't done much in R. Modulus is the operation you are interested in, where you are checking for whether the numbers are divisible by 2, with no remainder. See what you can find about modulus in R!
 
 ```{r}
-#| label: add-label-9
+#| label: how-many-evens
 # Code to verify how many even numbers are in your top_secret vector
 
-
+code_vector_update |> 
+  summarize(even = sum(code %% 2 == 0))
 ```
 
 <!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
