@@ -4,7 +4,7 @@ format: html
 editor: source
 embed-resources: true
 execute: 
-  echo: true
+  echo: false
   eval: true
 ---
 
@@ -127,10 +127,18 @@ By altering this top secret set of numbers, you will be able to create a message
 9.  Square every number.
 
 ```{r}
-#| label: add-label-2
+#| label: creating-a-message
 #add comment here
 #there are several ways to do this, the way below doesn't overwrite any column so you "don't lose work"
 
+code_break <- top_secret |> 
+  as_tibble() |> 
+  mutate(step6 = top_secret + 14,
+         step7 = step6*18 - 257,
+         step8 = exp(step7),
+         step9 = step8^2)
+
+head(code_break) #see the first few lines here
 
 
 ```
@@ -140,11 +148,11 @@ By altering this top secret set of numbers, you will be able to create a message
 *Hint:* This is what is called a "relational" comparison, where you compare an object to a number and R will give you a vector of TRUEs and FALSEs based on whether the comparison is / is not met. You can then use these TRUEs and FALSEs as numbers, since TRUE = 1 and FALSE = 0 in R land.
 
 ```{r}
-#| label: add-label-3
+#| label: relational-comparison
 #add comment here
 
-
-
+code_break |> 
+  summarize(total = sum(step9 < 17))
 ```
 
 <!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
@@ -155,16 +163,20 @@ Next, carry out the following steps:
 10. Turn your vector of numbers into a matrix with 5 columns.
 
 ```{r}
-#| label: add-label-4
-#add comment here
-
+#| label: matrix
+#turn vector into a matrix
+code_matrix <- code_break |> 
+  pull(step9) |> 
+  matrix(ncol = 5) |> 
+  as_tibble(column_name = "V") |> 
+  mutate(id = row_number())
   
 ```
 
 11. Separately from your top secret numbers, create a vector of all the even numbers between 1 and 382. Name it "evens". That is, "evens" should contain 2, 4, 6, 8 ..., 382.
 
 ```{r}
-#| label: add-label-5
+#| label: even-numbers
 #add comment here
 evens <- seq(from = 2, to = 382, by = 2)
 ```
@@ -175,9 +187,17 @@ evens <- seq(from = 2, to = 382, by = 2)
 15. Turn your matrix back into a vector.
 
 ```{r}
-#| label: add-label-6
+#| label: matrix-to-vector
 #add comment here
-
+code_vector <- code_matrix |> 
+  mutate(V1 = V1 - evens) |> 
+  mutate(V3 = if_else(id %in% 18:24, V3 - 100, V3)) |> 
+  mutate(V4 = V4*2, 
+         V5 = V5*2) |> 
+  select(-id) |> 
+  pivot_longer(V1:V5, names_to = "column", values_to = "code") |> 
+  arrange(column) |> 
+  mutate(id = row_number())
 ```
 
 **Checkpoint:** Headquarters has informed you that at this stage of decoding, all numbers in indices 500 and beyond are below 100. Write the code to verify that this is true for your `top_secret` object!
@@ -185,9 +205,10 @@ evens <- seq(from = 2, to = 382, by = 2)
 *Hint:* Use a relational comparison similar to what you used in the last checkpoint, but here you will need to subset values from your vector!
 
 ```{r}
-#| label: add-label-7
+#| label: relational-comparison-2
 #code to verify that indices 500 and beyond have values **below** 100
-
+code_vector |> 
+  summarize(beyond = sum(if_else(id %in% 500:max(id) >= 100, TRUE, FALSE))) 
 ```
 
 <!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
@@ -198,9 +219,12 @@ evens <- seq(from = 2, to = 382, by = 2)
 18. Replace all instances of the number 39 with 20. *Hint:* Step 18 requires another relational comparison, but this time it is equality. Equality in R is checked with a double equal sign rather than a single equal sign
 
 ```{r}
-#| label: add-label-8
-#add comment here
+#| label: sqrt-matrix
 
+code_vector_update <- code_vector |> 
+  mutate(code = if_else(id %in% 38:465, sqrt(code), code)) |> 
+  mutate(code = round(code, digits = 0)) |> 
+  mutate(code = if_else(code == 39, 20, code))
 ```
 
 
@@ -210,10 +234,11 @@ evens <- seq(from = 2, to = 382, by = 2)
 *Hint:* Checking for divisibility is an interesting operation that isn't done much in R. Modulus is the operation you are interested in, where you are checking for whether the numbers are divisible by 2, with no remainder. See what you can find about modulus in R!
 
 ```{r}
-#| label: add-label-9
+#| label: how-many-evens
 # Code to verify how many even numbers are in your top_secret vector
 
-
+code_vector_update |> 
+  summarize(even = sum(code %% 2 == 0))
 ```
 
 <!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
@@ -224,8 +249,12 @@ evens <- seq(from = 2, to = 382, by = 2)
 Use your final vector of numbers as indices for my_symbols to discover the final message, by running the following code:
 
 ```{r}
-#| label: add-label-10
+#| label: discovery
 # add comment here
+code_vector_update |> 
+  left_join(my_symbols, by = c("code" = "num")) |> 
+  pull(symbols) |> 
+  stringr::str_c(collapse = "")
 
 ```
 
