@@ -163,16 +163,20 @@ Next, carry out the following steps:
 10. Turn your vector of numbers into a matrix with 5 columns.
 
 ```{r}
-#| label: add-label-4
-#add comment here
-
+#| label: matrix
+#turn vector into a matrix
+code_matrix <- code_break |> 
+  pull(step9) |> 
+  matrix(ncol = 5) |> 
+  as_tibble(column_name = "V") |> 
+  mutate(id = row_number())
   
 ```
 
 11. Separately from your top secret numbers, create a vector of all the even numbers between 1 and 382. Name it "evens". That is, "evens" should contain 2, 4, 6, 8 ..., 382.
 
 ```{r}
-#| label: add-label-5
+#| label: even-numbers
 #add comment here
 evens <- seq(from = 2, to = 382, by = 2)
 ```
@@ -183,9 +187,17 @@ evens <- seq(from = 2, to = 382, by = 2)
 15. Turn your matrix back into a vector.
 
 ```{r}
-#| label: add-label-6
+#| label: matrix-to-vector
 #add comment here
-
+code_vector <- code_matrix |> 
+  mutate(V1 = V1 - evens) |> 
+  mutate(V3 = if_else(id %in% 18:24, V3 - 100, V3)) |> 
+  mutate(V4 = V4*2, 
+         V5 = V5*2) |> 
+  select(-id) |> 
+  pivot_longer(V1:V5, names_to = "column", values_to = "code") |> 
+  arrange(column) |> 
+  mutate(id = row_number())
 ```
 
 **Checkpoint:** Headquarters has informed you that at this stage of decoding, all numbers in indices 500 and beyond are below 100. Write the code to verify that this is true for your `top_secret` object!
@@ -193,9 +205,10 @@ evens <- seq(from = 2, to = 382, by = 2)
 *Hint:* Use a relational comparison similar to what you used in the last checkpoint, but here you will need to subset values from your vector!
 
 ```{r}
-#| label: add-label-7
+#| label: relational-comparison-2
 #code to verify that indices 500 and beyond have values **below** 100
-
+code_vector |> 
+  summarize(beyond = sum(if_else(id %in% 500:max(id) >= 100, TRUE, FALSE))) 
 ```
 
 <!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
