@@ -13,8 +13,9 @@ execute:
 
 
 ```{r}
-#| label: add-label-0
-
+#| label: tidyverse
+# comment: setting up tidy verse
+library(tidyverse)
 
 ```
 
@@ -89,9 +90,13 @@ Using the above, we can complete the following 5 steps within a few lines of cod
 If you want to look at `my_symbols` click on it under the Environment Tab in the top right panel.  
 
 ```{r}
-#| label: add-label-1
-# add comment here
+#| label: my-symbols
+# created a vector of the symbols, put them in the data frame, and assigned a number to each symbol
 
+my_symbols <- tibble(symbols = c(lower_case, 
+                                 upper_case, 
+                                 punctuation)) |> 
+              mutate(num = row_number()) 
 
 ```
 
