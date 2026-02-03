@@ -1,0 +1,235 @@
+---
+title: "Practice Activity 2: Version Control"
+format: html
+editor: source
+embed-resources: true
+execute: 
+  echo: true
+  eval: true
+---
+
+
+**NAMES:** Add names here  
+
+
+```{r}
+#| label: add-label-0
+
+
+```
+
+Today you will be creating and manipulating vectors, lists, and data frames to uncover a top secret message using the `tidyverse`. First thing is to include the package in a setup chunk above!  
+
+***This task is complex. It requires many different types of abilities. Everyone will be good at some of these abilities but nobody will be good at all of them. In order to solve this puzzle, you will need to use the skills of each member of your group.***
+
+
+## Groupwork Protocols
+
+During the Practice Activity, you and your partner will alternate between two roles---Computer and Coder.
+
+When you are the **Computer**, you will type into the Quarto document in RStudio. However, you **do not** type your own ideas. Instead, you type what the Coder tells you to type. You are permitted to ask the Coder clarifying questions, and, if both of you have a question, you are permitted to ask the professor. You are expected to run the code provided by the Coder and, if necessary, to work with the Coder to debug the code. Once the code runs, you are expected to collaborate with the Coder to write code comments that describe the actions taken by your code.
+
+When you are the **Coder**, you are responsible for reading the instructions / prompts and directing the Computer what to type in the Quarto document. You are responsible for managing the resources your group has available to you (e.g., cheatsheet, textbook). If necessary, you should work with the Computer to debug the code you specified. Once the code runs, you are expected to collaborate with the Computer to write code comments that describe the actions taken by your code.
+
+### Group Norms
+
+Remember, your group is expected to adhere to the following norms:  
+
+1. Be curious. Don't correct. 
+2. Be open minded.
+3. Ask questions rather than contribute. 
+4. Respect each other.
+5. Allow each teammate to contribute to the activity through their role. 
+6. Do not divide the work.
+7. No cross talk with other groups. 
+8. Communicate with each other!
+
+## Part Zero: Accessing the Practice Activity
+
+<!-- This is a Quarto Comment - if you highlight any markdown text and press CTRL+Shift+C it will make it a comment which can only be seen in the un-rendered Quarto document-->
+
+The first Computer (partner with next upcoming birthday) should create a GitHub repo following the online instructions. Then you will switch roles here and the new Computer will need to create a local repository on their own computer of the shared repository before starting.  
+
+<!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
+<!-- Now change roles (Computer becomes Coder) and the new Computer should PULL down the repository to make changes on their computer -->
+<!--The new Computer will now need create a local repository on their own computer and pull down the changes-->
+
+**For each code chunk, add a `#| label:` and a `#comment` describing what the code chunk is doing. Be sure to check that all spacing is appropriate as well!**
+
+## Part One: Setup
+
+In your activity, each of the following R chunks will cause an error and / or do the desired task incorrectly. The correct code provided below, please copy the correct code into each code chunk and add a label and comment.  
+
+0. Add a `setup` code chunk to your activity that loads the `tidyverse` package and hides the code output.  
+
+
+1.  Create vectors containing the upper case letters, lower case letters, and some punctuation marks. add a label that indicate this code chunk creates the vectors of letters and punctuation.
+
+```{r}
+#| label: create-vectors
+
+lower_case <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+
+upper_case <- c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
+
+punctuation <- c(".", ",", "!", "?", "'", '"', "(", ")", " ", "-", ";", ":")
+
+```
+
+
+Using the above, we can complete the following 5 steps within a few lines of code using the `tidyverse`.
+
+2.  Make **one** long **vector** containing all the symbols.
+3.  Turn the `my_symbols` vector into a data frame, with one column named "symbol".
+4.  Find the total number of symbols we have in our data frame.
+5.  Create a new variable in your data frame that assigns a number to each symbol.
+
+If you want to look at `my_symbols` click on it under the Environment Tab in the top right panel.  
+
+```{r}
+#| label: add-label-1
+# add comment here
+
+
+```
+
+
+
+
+
+<!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
+<!-- Now change roles (Computer becomes Coder) and the new Computer should PULL down the repository to make changes  -->
+
+# Part Two: Decoding the secret message.
+
+This chunk will load up the encoded secret message as a vector:
+
+```{r}
+#| label: read-in-top-secret
+#extracts the code from a dropbox file and pulls out generic first vector X1
+top_secret <- read_csv("https://www.dropbox.com/s/k72h1zewk4gtqep/PA_Secret_Code?dl=1", 
+                       col_names = FALSE, show_col_types = FALSE)$X1
+
+```
+
+By altering this top secret set of numbers, you will be able to create a message. Write your own code to complete the steps, **in the order given** below, but replace all of this mess with the tidyverse code below.
+
+6.  Add 14 to every number.
+7.  Multiply every number by 18, then subtract 257.
+8.  Use the `exp()` function to exponentiate every number.
+9.  Square every number.
+
+```{r}
+#| label: add-label-2
+#add comment here
+#there are several ways to do this, the way below doesn't overwrite any column so you "don't lose work"
+
+
+
+```
+
+**Checkpoint:** Headquarters has informed you that at this stage of decoding, there should be 352 numbers in the secret message that are below 17. Write the code to verify that this is true for your `top_secret` object!
+
+*Hint:* This is what is called a "relational" comparison, where you compare an object to a number and R will give you a vector of TRUEs and FALSEs based on whether the comparison is / is not met. You can then use these TRUEs and FALSEs as numbers, since TRUE = 1 and FALSE = 0 in R land.
+
+```{r}
+#| label: add-label-3
+#add comment here
+
+
+
+```
+
+<!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
+<!-- Now change roles (Computer becomes Coder) and the new Computer should PULL down the repository to make changes on their computer -->
+
+Next, carry out the following steps:
+
+10. Turn your vector of numbers into a matrix with 5 columns.
+
+```{r}
+#| label: add-label-4
+#add comment here
+
+  
+```
+
+11. Separately from your top secret numbers, create a vector of all the even numbers between 1 and 382. Name it "evens". That is, "evens" should contain 2, 4, 6, 8 ..., 382.
+
+```{r}
+#| label: add-label-5
+#add comment here
+evens <- seq(from = 2, to = 382, by = 2)
+```
+
+12. Subtract the "evens" vector from the first column of your secret message matrix.
+13. Subtract 100 from all numbers 18-24th rows of the 3rd column.
+14. Multiply all numbers in the 4th and 5th column by 2.
+15. Turn your matrix back into a vector.
+
+```{r}
+#| label: add-label-6
+#add comment here
+
+```
+
+**Checkpoint:** Headquarters has informed you that at this stage of decoding, all numbers in indices 500 and beyond are below 100. Write the code to verify that this is true for your `top_secret` object!
+
+*Hint:* Use a relational comparison similar to what you used in the last checkpoint, but here you will need to subset values from your vector!
+
+```{r}
+#| label: add-label-7
+#code to verify that indices 500 and beyond have values **below** 100
+
+```
+
+<!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
+<!-- Now change roles (Computer becomes Coder) and the new Computer should PULL down the repository to make changes on their computer -->
+
+16. Take the square root of all numbers in indices 38 to 465.
+17. Use the `round()` function to round all numbers to the nearest whole number.
+18. Replace all instances of the number 39 with 20. *Hint:* Step 18 requires another relational comparison, but this time it is equality. Equality in R is checked with a double equal sign rather than a single equal sign
+
+```{r}
+#| label: add-label-8
+#add comment here
+
+```
+
+
+
+**Checkpoint:** Headquarters has informed you that your final message should have 344 even numbers.
+
+*Hint:* Checking for divisibility is an interesting operation that isn't done much in R. Modulus is the operation you are interested in, where you are checking for whether the numbers are divisible by 2, with no remainder. See what you can find about modulus in R!
+
+```{r}
+#| label: add-label-9
+# Code to verify how many even numbers are in your top_secret vector
+
+
+```
+
+<!-- Computer Stage your Changes, Commit, and Push to the Git Repository-->
+<!-- Now change roles (Computer becomes Coder) and the new Computer should PULL down the repository to make changes on their computer -->
+
+# Part 3: The secret message!
+
+Use your final vector of numbers as indices for my_symbols to discover the final message, by running the following code:
+
+```{r}
+#| label: add-label-10
+# add comment here
+
+```
+
+Google the first line of this message, if you do not recognize it, to see what poem it is.
+
+
+## Part 4: Wrap up
+
+The last step is to make each code chunk hidden, but allow it to still run, by modifying the YAML. Once rendered, Export the project and submit with your "quiz" for the week. Note that each person should be submit a copy.
+
+<!-- Computer - Stage, Commit, and Push the final changes to the shared repository -->
+
